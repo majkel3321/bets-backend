@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -20,9 +22,15 @@ public class User {
     private Long id;
     private String username;
     private String password;
+    private String email;
+    private LocalDateTime createTime;
+    private boolean loggedIn;
 
-    public User(String username, String password) {
+    public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
+        this.email = email;
+        this.createTime = LocalDateTime.now();
+        this.loggedIn = false;
     }
 }
