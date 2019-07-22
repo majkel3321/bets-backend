@@ -19,7 +19,7 @@ public class Datum {
     @SerializedName("sport_nice")
     @Expose
     public String sportNice;
-    @SerializedName("teams")
+    @SerializedName("teamInfos")
     @Expose
     public List<String> teams = null;
     @SerializedName("commence_time")

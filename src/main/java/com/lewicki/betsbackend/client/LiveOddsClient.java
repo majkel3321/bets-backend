@@ -1,25 +1,28 @@
 package com.lewicki.betsbackend.client;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.lewicki.betsbackend.domain.odds.Odd;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 
+@Component
 public class LiveOddsClient {
 
-    public static void main(String[] args) throws IOException {
-       /* URL url = new URL("https://api.the-odds-api.com/v3/odds?sport=soccer_china_superleague&region=uk&mkt=h2h&apiKey=5d379c40c098ec7b638b16c936fab782");
-        InputStreamReader reader = new InputStreamReader(url.openStream());
-        JsonObject jsonObject = new JsonParser().parse(reader).getAsJsonObject();
-        System.out.println(jsonObject.get("data").toString());*/
+    @Autowired
+    private RestTemplate restTemplate;
 
-        URL url = new URL("https://api.the-odds-api.com/v3/odds?sport=soccer_china_superleague&region=uk&mkt=h2h&apiKey=5d379c40c098ec7b638b16c936fab782");
-        InputStreamReader reader = new InputStreamReader(url.openStream());
-        Odd odd = new Gson().fromJson(reader,Odd.class);
-        System.out.println(odd.getData().get(0).getTeams().toString());
+    public Odd downloadMatches() {
+
+        String url = "https://api.the-odds-api.com/v3/odds";
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
+                .queryParam("sport", "soccer_china_superleague")
+                .queryParam("region", "uk")
+                .queryParam("mkt", "h2h")
+                .queryParam("apiKey", "5d379c40c098ec7b638b16c936fab782");
+
+        Odd odd = restTemplate.getForObject(builder.toUriString(), Odd.class);
+        return odd;
     }
 }
