@@ -2,6 +2,7 @@ package com.lewicki.betsbackend.client;
 
 import com.lewicki.betsbackend.domain.LeagueIds;
 import com.lewicki.betsbackend.domain.league.League;
+import com.lewicki.betsbackend.domain.league.TeamInfo;
 import com.lewicki.betsbackend.domain.team.Player;
 import com.lewicki.betsbackend.domain.team.Team;
 import com.lewicki.betsbackend.service.LeagueIdsService;
@@ -41,7 +42,7 @@ public class ApiFootballClient {
         return team.getApi().getPlayers();
     }
 
-    public League getLeagueInfo(String name) {
+    public List<TeamInfo> getLeagueInfo(String name) {
         List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
         interceptors.add(new HttpHeaderInterceptor("X-RapidAPI-Key", "b4f84b21dbmsha822435a0352086p182f03jsn10487ebe1034"));
         interceptors.add(new HttpHeaderInterceptor("Accept", "application/json"));
@@ -50,7 +51,7 @@ public class ApiFootballClient {
         League league = restTemplate.getForObject("https://api-football-v1.p.rapidapi.com/v2/teams/league/" + leagueIdsService.getLeague(name).getId(),
                 League.class);
 
-        return league;
+        return league.getApi().getTeams();
     }
 
     @EventListener(ApplicationReadyEvent.class)
