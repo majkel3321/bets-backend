@@ -30,6 +30,11 @@ public class UserController {
         return userService.getUsers();
     }
 
+    @GetMapping("getLoggedUser")
+    public User getLoggedUser(){
+        return userService.getLoggedUser().get();
+    }
+
     @PostMapping(value = "createUser",consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createUser(@RequestBody UserDto userDto) {
         userService.addUser(userMapper.mapToUser(userDto));
@@ -41,7 +46,17 @@ public class UserController {
     }
 
     @PutMapping("login")
-    public User logIn(@RequestParam String username, @RequestParam String password){
-        return userService.logIn(username,password).orElse(new User("username","password","email"));
+    public boolean logIn(@RequestParam String username, @RequestParam String password){
+        return userService.logIn(username,password);
+    }
+
+    @PutMapping("logout")
+    public boolean logOut(@RequestParam String username){
+        return userService.logOut(username);
+    }
+
+    @PutMapping("updateBalance")
+    public boolean updateAccountBalance(@RequestParam Long userId, @RequestParam double amount){
+       return userService.updateBalance(userId,amount);
     }
 }

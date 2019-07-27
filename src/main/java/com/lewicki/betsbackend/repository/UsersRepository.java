@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UsersRepository extends CrudRepository<User,Long> {
+public interface UsersRepository extends CrudRepository<User, Long> {
 
     @Override
     List<User> findAll();
@@ -18,4 +18,10 @@ public interface UsersRepository extends CrudRepository<User,Long> {
     Optional<User> findById(Long id);
 
     Optional<User> findByUsernameAndPassword(String username, String password);
+
+    Optional<User> findByLoggedInIsTrue();
+
+    List<User> findAllByLoggedInIsTrue();
+
+    Optional<User> findByUsername(String username);
 }

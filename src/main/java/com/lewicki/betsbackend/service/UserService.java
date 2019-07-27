@@ -3,11 +3,12 @@ package com.lewicki.betsbackend.service;
 import com.lewicki.betsbackend.domain.User;
 import com.lewicki.betsbackend.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@org.springframework.stereotype.Service
+@Service
 public class UserService {
 
     @Autowired
@@ -29,20 +30,50 @@ public class UserService {
         return usersRepository.findById(id);
     }
 
-   /* public void logIn(String username, String password){
-       usersRepository.findByUsernameAndPassword(username,password).ifPresent(user -> {
-           user.setLoggedIn(true);
-           usersRepository.save(user);
-       });
-    }*/
+    public boolean logIn(String username, String password) {
 
-    public Optional<User> logIn(String username, String password) {
-        usersRepository.findByUsernameAndPassword(username, password)
-                .ifPresent(user -> {
-                    user.setLoggedIn(true);
-                    usersRepository.save(user);
-                });
+        if (usersRepository.findAllByLoggedInIsTrue().size() == 0) {
+            usersRepository.findByUsernameAndPassword(username, password)
+                    .ifPresent(user -> {
+                        user.setLoggedIn(true);
+                        usersRepository.save(user);
+                    });
+            return true;
+        }
 
-        return usersRepository.findByUsernameAndPassword(username,password);
+        return false;
+    }
+
+    public Optional<User> getLoggedUser() {
+        return usersRepository.findByLoggedInIsTrue();
+    }
+
+    public boolean logOut(String username) {
+
+        if (usersRepository.findByUsername(username).isPresent()) {
+            usersRepository.findByUsername(username)
+                    .ifPresent(user -> {
+                        user.setLoggedIn(false);
+                        usersRepository.save(user);
+                    });
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean updateBalance(Long userId, double amount) {
+        double balance = usersRepository.findById(userId).get().getBalance();
+
+        if (balance - amount > 0) {
+            usersRepository.findById(userId)
+                    .ifPresent(user -> {
+                        user.setBalance(balance - amount);
+                        usersRepository.save(user);
+                    });
+            return true;
+        }
+
+        return false;
     }
 }
