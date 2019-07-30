@@ -1,5 +1,6 @@
 package com.lewicki.betsbackend.client;
 
+import com.lewicki.betsbackend.configuration.LiveOddsConfig;
 import com.lewicki.betsbackend.domain.odds.Odd;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,14 +14,17 @@ public class LiveOddsClient {
     @Autowired
     private RestTemplate restTemplate;
 
-    public Odd downloadMatches() {
+    @Autowired
+    private LiveOddsConfig liveOddsConfig;
 
-        String url = "https://api.the-odds-api.com/v3/odds";
+    public Odd downloadMatches(String leagueName) {
+
+        String url = liveOddsConfig.getLiveOddsEndpoint();
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
-                .queryParam("sport", "soccer_china_superleague")
+                .queryParam("sport", leagueName)
                 .queryParam("region", "uk")
                 .queryParam("mkt", "h2h")
-                .queryParam("apiKey", "5d379c40c098ec7b638b16c936fab782");
+                .queryParam("apiKey", liveOddsConfig.getLiveOddsKey());
 
         Odd odd = restTemplate.getForObject(builder.toUriString(), Odd.class);
         return odd;

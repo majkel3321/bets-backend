@@ -20,13 +20,13 @@ public class TeamInfoController {
     private TeamInfoService teamInfoService;
 
     @GetMapping
-    public List<Player> getTeam(@RequestParam String name){
+    public List<Player> getTeam(@RequestParam("name") String name){
         name = name.replaceAll("%20"," ");
         return apiFootballClient.getTeamSquad(name);
     }
 
     @GetMapping("league")
-    public List<TeamInfo> getTeamsList(@RequestParam String name){
+    public List<TeamInfo> getTeamsList(@RequestParam("name") String name){
         name = name.replaceAll("%20"," ");
         List<TeamInfo> teams = apiFootballClient.getLeagueInfo(name);
         teamInfoService.saveTeams(teams);
@@ -34,7 +34,7 @@ public class TeamInfoController {
     }
 
     @DeleteMapping("delete")
-    public void deleteMatch(@RequestParam Long id){
-
+    public void deleteTeam(@RequestParam("id") Long id){
+        teamInfoService.deleteTeam(id);
     }
 }

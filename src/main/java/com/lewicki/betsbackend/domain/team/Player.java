@@ -3,11 +3,13 @@ package com.lewicki.betsbackend.domain.team;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
 @ToString
 @Getter
+@AllArgsConstructor
 public class Player {
 
     @SerializedName("player_id")
@@ -50,4 +52,8 @@ public class Player {
     @Expose
     public String weight;
 
+    public Player(Long playerId, String playerName) {
+        this.playerId = playerId;
+        this.playerName = playerName;
+    }
 }

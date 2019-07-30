@@ -1,5 +1,6 @@
 package com.lewicki.betsbackend.client;
 
+import com.lewicki.betsbackend.configuration.ApiFootballConfig;
 import com.lewicki.betsbackend.domain.LeagueIds;
 import com.lewicki.betsbackend.domain.league.League;
 import com.lewicki.betsbackend.domain.league.TeamInfo;
@@ -30,13 +31,16 @@ public class ApiFootballClient {
     @Autowired
     private TeamInfoService teamInfoService;
 
+    @Autowired
+    private ApiFootballConfig apiFootballConfig;
+
     public List<Player> getTeamSquad(String name) {
         List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
-        interceptors.add(new HttpHeaderInterceptor("X-RapidAPI-Key", "b4f84b21dbmsha822435a0352086p182f03jsn10487ebe1034"));
+        interceptors.add(new HttpHeaderInterceptor("X-RapidAPI-Key", apiFootballConfig.getApiFootballKey()));
         interceptors.add(new HttpHeaderInterceptor("Accept", "application/json"));
 
         restTemplate.setInterceptors(interceptors);
-        Team team = restTemplate.getForObject("https://api-football-v1.p.rapidapi.com/v2/players/squad/" + teamInfoService.getTeam(name).getTeam_id() + "/2018-2019",
+        Team team = restTemplate.getForObject(apiFootballConfig.getApiFootballEndpoint() + "/players/squad/" + teamInfoService.getTeam(name).getTeam_id() + "/2018-2019",
                 Team.class);
 
         return team.getApi().getPlayers();
@@ -44,11 +48,11 @@ public class ApiFootballClient {
 
     public List<TeamInfo> getLeagueInfo(String name) {
         List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
-        interceptors.add(new HttpHeaderInterceptor("X-RapidAPI-Key", "b4f84b21dbmsha822435a0352086p182f03jsn10487ebe1034"));
+        interceptors.add(new HttpHeaderInterceptor("X-RapidAPI-Key", apiFootballConfig.getApiFootballKey()));
         interceptors.add(new HttpHeaderInterceptor("Accept", "application/json"));
 
         restTemplate.setInterceptors(interceptors);
-        League league = restTemplate.getForObject("https://api-football-v1.p.rapidapi.com/v2/teams/league/" + leagueIdsService.getLeague(name).getId(),
+        League league = restTemplate.getForObject(apiFootballConfig.getApiFootballEndpoint() + "/teams/league/" + leagueIdsService.getLeague(name).getId(),
                 League.class);
 
         return league.getApi().getTeams();

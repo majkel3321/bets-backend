@@ -20,27 +20,27 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
-    @GetMapping("getUser")
-    public User getUser(@RequestParam Long id) {
+    @GetMapping
+    public User getUser(@RequestParam("id") Long id) {
         return userService.getUser(id).orElse(new User("username", "password","email"));
     }
 
-    @GetMapping("getUsers")
+    @GetMapping("all")
     public List<User> getAllUsers() {
         return userService.getUsers();
     }
 
-    @GetMapping("getLoggedUser")
+    @GetMapping("logged")
     public User getLoggedUser(){
         return userService.getLoggedUser().get();
     }
 
-    @PostMapping(value = "createUser",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "create",consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createUser(@RequestBody UserDto userDto) {
         userService.addUser(userMapper.mapToUser(userDto));
     }
 
-    @DeleteMapping("deleteUser")
+    @DeleteMapping("delete")
     public void deleteUser(@RequestParam Long id) {
         userService.deleteUser(id);
     }

@@ -11,15 +11,19 @@ import java.util.List;
 public class TeamInfoService {
 
     @Autowired
-    private TeamInfoRepository repository;
+    private TeamInfoRepository teamInfoRepository;
 
     public void saveTeams(List<TeamInfo> teams){
         for (TeamInfo teamInfo: teams){
-            repository.save(teamInfo);
+            teamInfoRepository.save(teamInfo);
         }
     }
 
     public TeamInfo getTeam(String name){
-        return repository.findByName(name).orElse(new TeamInfo("empty"));
+        return teamInfoRepository.findByName(name).orElse(new TeamInfo("empty"));
+    }
+
+    public void deleteTeam(Long id){
+        teamInfoRepository.deleteById(id);
     }
 }
