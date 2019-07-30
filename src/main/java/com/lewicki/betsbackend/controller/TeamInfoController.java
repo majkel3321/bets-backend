@@ -5,16 +5,13 @@ import com.lewicki.betsbackend.domain.league.TeamInfo;
 import com.lewicki.betsbackend.domain.team.Player;
 import com.lewicki.betsbackend.service.TeamInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/team")
-public class TeamController {
+public class TeamInfoController {
 
     @Autowired
     private ApiFootballClient apiFootballClient;
@@ -34,5 +31,10 @@ public class TeamController {
         List<TeamInfo> teams = apiFootballClient.getLeagueInfo(name);
         teamInfoService.saveTeams(teams);
         return teams;
+    }
+
+    @DeleteMapping("delete")
+    public void deleteMatch(@RequestParam Long id){
+
     }
 }
