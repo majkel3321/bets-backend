@@ -68,7 +68,7 @@ public class UserService {
         if (balance - amount > 0) {
             usersRepository.findById(userId)
                     .ifPresent(user -> {
-                        user.setBalance(balance - amount);
+                        user.setBalance(balance + amount);
                         usersRepository.save(user);
                     });
             return true;

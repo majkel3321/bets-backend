@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping("logged")
     public User getLoggedUser(){
-        return userService.getLoggedUser().get();
+        return userService.getLoggedUser().orElse(new User("user","password","email"));
     }
 
     @PostMapping(value = "create",consumes = MediaType.APPLICATION_JSON_VALUE)

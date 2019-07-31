@@ -25,7 +25,6 @@ public class TeamInfo {
     @SerializedName("name")
     @Expose
     public String name;
-
     @SerializedName("logo")
     @Expose
     public String logo;
@@ -51,7 +50,8 @@ public class TeamInfo {
     @Expose
     public int venue_capacity;
 
-    public TeamInfo(String name) {
+    public TeamInfo(Long id,String name) {
+        this.team_id = id;
         this.name = name;
     }
 }

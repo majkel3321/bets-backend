@@ -27,6 +27,16 @@ public class MatchController {
         return matchMapper.mapToMatchDtoList(liveOddsClient.downloadMatches(leagueName));
     }
 
+    /*  available leagues
+        soccer_china_superleague
+        soccer_denmark_superliga
+        soccer_belgium_first_div
+        soccer_japan_j_league
+        soccer_netherlands_eredivisie
+        soccer_norway_eliteserien
+        soccer_russia_premier_league
+     */
+
     @DeleteMapping("delete")
     public void deleteMatch(@RequestParam("id") Long id){
         matchService.deleteMatch(id);
