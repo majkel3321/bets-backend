@@ -57,9 +57,9 @@ public class TeamInfoControllerTestSuite {
     public void shouldGetLeagues() throws Exception {
         //Given
         List<TeamInfo> teams = new ArrayList<>();
-        teams.add(new TeamInfo("Barcelona"));
-        teams.add(new TeamInfo("Real Madrid"));
-        teams.add(new TeamInfo("Atletico"));
+        teams.add(new TeamInfo(1L,"Barcelona"));
+        teams.add(new TeamInfo(2L,"Real Madrid"));
+        teams.add(new TeamInfo(3L,"Atletico"));
 
         when(teamInfoController.getTeamsList(anyString())).thenReturn(teams);
 
