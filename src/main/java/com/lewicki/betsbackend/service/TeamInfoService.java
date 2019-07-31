@@ -13,6 +13,10 @@ public class TeamInfoService {
     @Autowired
     private TeamInfoRepository teamInfoRepository;
 
+    public List<TeamInfo> getTeams(){
+        return teamInfoRepository.findAll();
+    }
+
     public void saveTeams(List<TeamInfo> teams){
         for (TeamInfo teamInfo: teams){
             teamInfoRepository.save(teamInfo);
@@ -20,7 +24,7 @@ public class TeamInfoService {
     }
 
     public TeamInfo getTeam(String name){
-        return teamInfoRepository.findByName(name).orElse(new TeamInfo("empty"));
+        return teamInfoRepository.findByName(name).orElse(new TeamInfo(1L,"empty"));
     }
 
     public void deleteTeam(Long id){
